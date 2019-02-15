@@ -1,0 +1,1 @@
++ makeCallGraph() on the namespace functions and plot() fails because no package attribute.
