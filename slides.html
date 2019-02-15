@@ -116,62 +116,90 @@ layout: true
 getClasses("package:CodeDepends")
 ```
 
-+ getClass("Script")
++ `getClass("Script")`
 
-+ showMethods() &amp; methods()
++ `showMethods()` &amp; `methods()`
 ```
 showMethods(, "package:CodeDepends")
 ```
-   + selectMethod()
+
+---
+# Additional Query Functions
+
++ selectMethod()
+  + way to determine which method will be called for a given set of input classes
 
 + formals(fun)
+  + parameters and default expressions for a function
 
 + body(fun)
+  + the code for the body of a function, separate from the parameters
 
 ---
 # Class Hierarchy
 
++ Object-oriented programming
+  + How do we know the classes and their relationships to each other
+
++ S4 classes are more structured
+  + Provide information after being defined by running code defining the classes, i.e. source() or install.packages()
+
++ Matrix package uses S4. Find all classes it defines
 ```
 library(Matrix)
 mk = getClasses("package:Matrix")
 ```
 
-
++ Look at the dMatrix class' definition
 ```
 z = getClass("dMatrix")
-
+```
++ The class representing a class definition is classRepresentation
+```
 class(z)
 getClass("classRepresentation")
 ```
 
++ Is this a VIRTUAL class?
 ```
 z@virtual
 ```
+
++ What classes does this class inherit from?
 
 ```
 names(z@contains)
 ```
 
 ---
-#
+# Class Hierarchy Tree
 
++ How are the classes related to each other
+  + Display as a graph
+
++ Define several classes related to shapes - circles, squares, rectangles, ....
 ```
 source("classEg.R")
-source("mkClassHierarchy.R")
 ```
 
++ Create a graph visualizing the class hierarchy
 ```
 o = mkClassGraph(, "Shape")
+library(igraph)
 gg = graph_from_data_frame(o, directed = TRUE)
 plot(gg)
 ```
+---
 
+<img src="ShapeClassGraph.png"/>
 
 ---
 
 # Call Graph
 
-+ What does a function call
++ Analogous to a class graph, we have a function call graph
+
++ What other functions does a given function call
   + Nodes are functions
   + Edge between A and B - A calls B
     + directed
@@ -185,6 +213,8 @@ plot(g, "neato")
 plot(g, "circo")
 ```
 
+---
+<img src="CallGraph.png"/>
 ---
 
 # getNamespace()
@@ -304,7 +334,7 @@ agrep(g, names(formals(f)), value = TRUE)
 ---
 
 # Find S3 Classes
-#  Assignments via `class(x) = names`
+###  Assignments via `class(x) = names`
 
 + Unlike S4, S3 classes are semi/un-structured
    + assign the class attribute via
@@ -331,7 +361,7 @@ S3Assignments(f)
 ---
 
 # Identify Input Files
-## Read by functions we know read from connections
+### Read by functions we know read from connections
 
 + Want to find literal strings identifying the names of
   files we read (data) from
