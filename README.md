@@ -1,4 +1,4 @@
-# Meta-Programming for Code Review
+# Meta-Programming for Code Exploration &amp; Review <img style="float: right" src="http://dsi.ucdavis.edu/images/dsi_banner.png" height="4%"></img>
 ## Duncan Temple Lang
 
 This is for a brief talk for the "Code Review" sessions where we discuss
@@ -33,16 +33,16 @@ or to generate code.
 
 ### Sometimes we start with
 + a script and perhaps some associated files containing functions
-+ a collection of functions
-+ or a complete package
++ a collection of functions in one or more files,
++ or a complete R package - a more structured representation of a collection of files with functions.
 
 ### We might want to know, for example,
 <!-- done -->
 + which functions call which other functions - see `CodeDepends::makeCallGraph()`
-   + if we need to change the name, we know where to change.  (Do it programmatically.)
+   + if we need to change the name of a function, we know where to change the calls to it.  (We can do it programmatically.)
 <!-- done -->
 + which functions are defined in these files and which are assumed to be somewhere else
-   + Can source() into a separate environment for each file [funFileNames_source.R](funFileNames_source.R)
+   + Can `source()` into a separate environment for each file [funFileNames_source.R](funFileNames_source.R)
    + Static analysis of parsed data - see [funFileNames.R](funFileNames.R)
 <!-- done : check the :: and ::: -->
 + what packages are used via library(), require() or via the `::` operator -
@@ -94,12 +94,14 @@ ans
 + creation of S3 objects, i.e. assigning a class to an object - [slides.html](slides.html) and `S3Assignments()`
 <!-- done -->
 + S4 methods - [slides.html](slides.html) and `showMethods()` and `methods()` in regular R.
-+ access of slots that don't exist.
+<!-- partially done -->
++ access of slots that don't exist. - see [missedSlots.R](missedSlots.R) and `CodeAnalysis::findSlotAccess()`
    + here we need to know the class of the object. Type inference is important for a general
-     approach, but we can do more limited error checking, i.e., find if a slot name exists in any
-     class defined in the code, if we know the class of an object as it is created within the same scope.
+     approach, but we can do more limited error checking, 
+	 + i.e., find if a slot name exists in any
+     class defined in the code, if we know the possible class of an object as it is created within the same scope.
 	 
-  
+
 
 + What packages does this code use, e.g., XML or xml2?
 + What functions does it use from XML and are there equivalent ones in xml2?
