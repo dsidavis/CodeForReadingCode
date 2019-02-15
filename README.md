@@ -69,9 +69,9 @@ or to generate code.
   + look for `if(.Platform$OS.type) ...` or  `switch(.Platform$OS.type, unix = , windows = )`
 <!-- done -->
 + can we visualize the flow of the code - see [slides.html](slides.html) and `CodeDepends::makeVariableGraph()` and `plot()`.
-+ which functions support ... parameter - see [dots.R](dots.R)
++ which functions support ... parameter - see [dots.R](dots.R) and `CodeAnalysis::usesDots()`
    + do they process these values directly? or
-   + pass them on and to what functions?
+   + pass them on to other functions and what are these other functions?
    + If they pass them on, what other parameters are in those calls so cannot be in the ...
 + functions defined inside other functions but don't use as closure by assigning values just acess
   values that could be passed down.
