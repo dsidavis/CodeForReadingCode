@@ -33,7 +33,7 @@ class: center, middle
 
 ---
 layout: true
-<img style="float: right" src="http://dsi.ucdavis.edu/images/dsi_brand_logo.png"></img>
+<img style="float: right" src="http://dsi.ucdavis.edu/images/dsi_brand_logo.png" width=100 height="60"></img>
 
 ---
 # Goals
@@ -217,7 +217,7 @@ plot(g, "circo")
 <img src="CallGraph.png"/>
 ---
 
-# getNamespace()
+# Unexported Functions - getNamespace()
 
 + For a package, ls() only lists the exported functions
 + getNamespace() gives us the entire set of variables/symbols in the package
@@ -229,12 +229,17 @@ e = getNamespace("CodeDepends")
 ll = as.list(e)
 ll = ll[ sapply(ll, is.function) ]
 ```
-Now have the internal functions as well as the exported ones
+
++ Now have the internal functions as well as the exported ones
 
 ```
 g = makeCallGraph(ll, packages = "CodeDepends(all)")
 plot(g, "neato")
 ```
+
+---
+
+<img src="CallGraph2.png"/>
 
 ---
 
@@ -272,14 +277,14 @@ plot(g, "neato")
 
 + Parse the code into an AST - Abstract Syntax Tree
   + structured elements such as function **expression**, **call**, **if**, **for**, **<-**, **=**
+  + the bold-faced text implies class names in R for language objects
 
 + Traverse the tree, collecting information of interest.
 
 + rstatic package provides alternative analogous representation and functionality
 
 ---
-
-# Unused Parameters/Formal Arguments 
+## Unused Parameters/Formal Arguments 
 
 + Identify parameters that are not used in a function
   + Would remove them to simplify the function
@@ -287,15 +292,17 @@ plot(g, "neato")
 
 + findUnusedArgs in CodeAnalysis package
 
++ Example of function with an unused parameter (u)
 ```
 f =
 function(a, b, u)
 {
-  z = a + b
-  ans = g(z)
+      z = a + b
+      ans = g(z)
 }
 ```
 
++ Code to identify this unused parameter
 ```
 CodeAnalysis::findUnusedArgs(f, FALSE)
 ```
@@ -303,8 +310,7 @@ CodeAnalysis::findUnusedArgs(f, FALSE)
 + Can also correct the code and return the modified function with the parameter(s) removed.
 
 ---
-
-# Typos
+## Typos
 
 + We have a parameter named `xyz` but refer to it as `xyx`
 
@@ -314,14 +320,13 @@ CodeAnalysis::findUnusedArgs(f, FALSE)
 
 + Can check global is close to name of unused parameter.
 
++ Example function
 ```
-f =
-function(abc, xyz)
-{
-   abc + xyx
-}
+f = function(abc, xyz)
+        abc + xyx
 ```
 
++ Match the typo for the global variable to the "close" parameter name:
 ```
 m = CodeAnalysis::findUnusedArgs(f, FALSE)
 g = CodeAnalysis::getGlobals(f)$variables
@@ -329,7 +334,7 @@ agrep(g, names(formals(f)), value = TRUE)
 ```
 
 + Can check globals are close to parameter,
-  + or also correspond to an  unused parameter.
+  + or also correspond to an unused parameter.
 
 ---
 
